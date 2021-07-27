@@ -18,8 +18,8 @@
             <td>{{$store->id}}</td>
             <td>{{$store->name}}</td>
             <td>
-                <a href="{{route('admin.stores.edit',['store',$store->id])}}" class="btn btn-sm btn-info">EDIT</a>
-                <a href="{{route('admin.stores.destroy',['store',$store->id])}}" class="btn btn-sm btn-danger">REMOVE</a>
+                <a href="{{route('admin.stores.edit',['store' =>$store->id])}}" class="btn btn-sm btn-info">EDIT</a>
+                <a href="{{route('admin.stores.destroy',['store' =>$store->id])}}" class="btn btn-sm btn-danger">REMOVE</a>
             </td>
         </tr>
     @endforeach
