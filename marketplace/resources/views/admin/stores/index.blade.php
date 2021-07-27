@@ -2,6 +2,7 @@
 
 @section('content')
 
+<a href="{{route('admin.stores.create')}}" class="btn btn-lg btn">Create new store</a>
 
 <table class="table table-striped">
     <thead>
@@ -16,7 +17,10 @@
         <tr>
             <td>{{$store->id}}</td>
             <td>{{$store->name}}</td>
-            <td></td>
+            <td>
+                <a href="{{route('admin.stores.edit',['store',$store->id])}}" class="btn btn-sm btn-info">EDIT</a>
+                <a href="{{route('admin.stores.destroy',['store',$store->id])}}" class="btn btn-sm btn-danger">REMOVE</a>
+            </td>
         </tr>
     @endforeach
     </tbody>
