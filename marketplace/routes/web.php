@@ -54,6 +54,62 @@ Route::get('/models',function(){
 
 */
 
+/* 
+    $user = \App\User::find(1);
+    
+    return $user -> store; 
+    
+    If you call this as an string, it will return an unique object,
+    but if you call this as an function, it will allow condictional queries
+
+*/
+
+/*  
+    Creating one store for one user:
+
+        $user =\App\User::find(1);
+        $store = $user ->store()->create([
+            'name'=>'Test Store',
+            'description'=>'Lorem Ipsum',
+            'phone'=>'xx-xxxx-xxxx',
+            'mobile_phone'=>'xx-xxxx-xxxx',
+            'slug' =>'test-store'
+        ]);
+*/
+
+/*  
+    Creating one product for one store:
+
+        $store =\App\Store::find(1);
+        $product = $store ->products()->create([
+            'name'=>'Test Product',
+            'description'=>'Lorem Ipsum',
+            'body'=>'Lorem Ipsum',
+            'price'=>28.00,
+            'slug' =>'test-product'
+        ]);
+*/
+
+/*
+    Creating one category:
+
+    $category = \App\Category::create([
+        'name' => 'Test Category',
+        'description' => null,
+        'slug' =>'test-category',
+    ])
+*/
+
+
+/*
+    Setting one product for one category:
+
+    $product = \App\Product::find(1);
+    $product-> categories()-> sync([1]);
+
+*/
+
+
     return \App\User::all();
 
 
