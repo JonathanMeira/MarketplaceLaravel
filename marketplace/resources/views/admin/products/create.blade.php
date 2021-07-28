@@ -7,7 +7,7 @@
 </h1>
 
 <form action="{{route('admin.products.store')}}" method="post">
-<input type="hidden" name="_token" value="{{csrf_token()}}">
+    @csrf
 
 <div class="form-group">
     <label>Product name</label>

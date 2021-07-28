@@ -18,8 +18,14 @@
             <td>{{$store->id}}</td>
             <td>{{$store->name}}</td>
             <td>
-                <a href="{{route('admin.stores.edit',['store' =>$store->id])}}" class="btn btn-sm btn-info">EDIT</a>
-                <a href="{{route('admin.stores.destroy',['store' =>$store->id])}}" class="btn btn-sm btn-danger">REMOVE</a>
+                <div class="btn-group">
+                    <a href="{{route('admin.stores.edit',['store' =>$store->id])}}" class="btn btn-sm btn-info">EDIT</a>
+                    <form action="{{route('admin.stores.destroy',['store' =>$store->id])}}" method="post">
+                        @csrf
+                        @method("DELETE")
+                    <button type="submit" class="btn btn-sm btn-danger">REMOVE</button>
+                    </form>
+                </div>
             </td>
         </tr>
     @endforeach
