@@ -31,7 +31,7 @@ class StoreController extends Controller
 
     public function edit($store)
     {
-        $store = \App\Store::find($store);
+        $store = \App\Store::findOrFail($store);
         return view('admin.stores.edit',compact('store'));
     }
 
