@@ -6,7 +6,7 @@
     Edit Store
 </h1>
 
-<form action="{{route('admin.stores.update',['store' => $store->id])}}" method="post">
+<form action="{{route('admin.stores.update',['store' => $store->id])}}" method="post" enctype="multipart/form-data">
     @csrf
     @method("PUT")
 
@@ -48,6 +48,14 @@
             {{$message}}
         </div>
     @enderror
+</div>
+
+<div class="form-group">
+    <label>Store's logo</label>
+    <input type="file"  name="logo" class="form-control">
+    <p>
+        <img src="{{asset('storage/'.$store->logo)}}">
+    </p>
 </div>
 
 <div class="form-group">
