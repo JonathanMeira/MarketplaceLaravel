@@ -3,7 +3,7 @@
 
 @section('content')
 
-    <a href="{{route('admin.categories.create')}}" class="btn btn-lg btn-success">Criar Categoria</a>
+    <a href="{{route('admin.categories.create')}}" class="btn btn-lg btn">Create new category</a>
 
     <table class="table table-striped">
         <thead>
