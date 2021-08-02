@@ -26,7 +26,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = $this -> product -> paginate(10);
+        $userStore = auth() -> user() -> store;
+
+
+        $products = $userStore -> products() ->paginate(10);
+
         return view('admin.products.index', compact('products'));
     }
 
@@ -53,6 +57,11 @@ class ProductController extends Controller
         $store = auth()->user()->store;
         $product = $store -> products() -> create($data);
         $product -> categories() -> sync($data['categories']);
+
+        if($request->hasFile('photos')){
+            $images = $this -> imageUpload($request,'image');
+            $product->photos()-> createMany($images);
+        }
         
         flash('Product creation was an success')->success();
         return redirect()->route('admin.products.index');
@@ -95,7 +104,12 @@ class ProductController extends Controller
         $product = $this -> product -> find($product);
         $product ->update($data);
         $product -> categories() -> sync($data['categories']);
-        
+
+        if($request->hasFile('photos')){
+            $images = $this -> imageUpload($request,'image');
+            $product->photos()-> createMany($images);
+        }
+
         flash('Product edition was an success')->success();
         return redirect()->route('admin.products.index');
     }
@@ -113,4 +127,16 @@ class ProductController extends Controller
         flash('Product deletion was an success')->success();
         return redirect()->route('admin.products.index');
     }
+
+    private function imageUpload(Request $request, $imageColumn)
+    {
+        $images = $request ->file('photos');
+        $uploadedImages = [];
+        
+        foreach($images as $image){
+           $uploadedImages[]=  [$imageColumn => $image -> store('products', 'public')];
+        }
+        return $uploadedImages;
+    }
+
 }
