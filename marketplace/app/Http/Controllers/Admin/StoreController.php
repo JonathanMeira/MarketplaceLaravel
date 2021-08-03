@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreRequest;
 use App\Traits\UploadTrait;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class StoreController extends Controller
 {
@@ -42,6 +43,8 @@ class StoreController extends Controller
             $data['logo'] = $this -> imageUpload($request->file('logo'));
         }
 
+        $data['slug'] = Str::slug($data['name'], '-');
+
         $store = $user->store()->create($data);
 
         flash('Store creation was an success')->success();        
@@ -65,6 +68,8 @@ class StoreController extends Controller
             }
             $data['logo'] = $this -> imageUpload($request->file('logo'));
         }
+
+        $data['slug'] = Str::slug($data['name'], '-');
 
         $store->update($data);
 

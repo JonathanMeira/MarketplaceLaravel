@@ -64,7 +64,7 @@
 
 <div class="form-group">
     <label for="">Slug</label>
-    <input type="text" name="slug" class="form-control">
+    <input type="text" name="slug" class="form-control" disabled="true">
 </div>
 
 <div>

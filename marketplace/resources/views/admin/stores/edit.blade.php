@@ -65,7 +65,7 @@
 
 <div class="form-group">
     <label for="">Slug</label>
-    <input type="text" name="slug" class="form-control" value="{{$store->slug}}">
+    <input type="text" name="slug" class="form-control" value="{{$store->slug}}" disabled="true">
 </div>
 
 
