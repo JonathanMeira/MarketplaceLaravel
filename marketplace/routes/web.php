@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', 'HomeController@index')->name('home');
+
+Route::get('/product/{slug}','HomeController@single')->name('product.single');
 
 Route::get('/models',function(){
     
