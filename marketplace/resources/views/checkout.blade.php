@@ -39,6 +39,8 @@
                     <label>Security number</label>
                     <input type="text" name="card_cvv"class="form-control">
                 </div>
+
+                <div class="col-md-12 installments form-group"></div>
             </div>
 
             <button class="btn btn-success btn-lg">Place order</button>
@@ -65,16 +67,59 @@
                 cardBin: cardNumber.value.substr(0,6),
                 success: function(res){
                     let imgFlag = `<img src="https://stc.pagseguro.uol.com.br/public/img/payment-methods-flags/68x30/${res.brand.name}.png">`;
-
                     spanBrand.innerHTML = imgFlag;
+                    
+                    getInstallments(40,res.brand.name);
                 },
-                error: function(err){console.log(err)},
+                error: function(err){
+                    console.log(err)
+                },
                 complete: function(res){
                     //console.log(res)
                 }
             });
         }
+    });
+
+    function getInstallments(amount, brand) {
+    PagSeguroDirectPayment.getInstallments({
+        amount: amount,
+        brand: brand,
+        maxInstallmentNoInterest: 0,
+        success: function(res) {
+            let selectInstallments = drawSelectInstallments(res.installments[brand]);
+            document.querySelector('div.installments').innerHTML = selectInstallments;
+        },
+        error: function(err) {
+            console.log(err);
+        },
+        complete: function(res) {
+
+        },
     })
+}
+
+    function drawSelectInstallments(installments) {
+		let select = '<label>Installment Options:</label>';
+
+		select += '<select class="form-control">';
+
+		for(let l of installments) {
+		    select += `<option value="${l.quantity}|${l.installmentAmount}">${l.quantity}x of ${l.installmentAmount} - Total: ${l.totalAmount}</option>`;
+		}
+
+
+		select += '</select>';
+
+		return select;
+	}
+
+
+
+
+
+
+
 </script>
 
 
