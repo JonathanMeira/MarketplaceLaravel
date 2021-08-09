@@ -53,6 +53,7 @@
 
 @section('scripts')
 <script src="https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"></script>
+<script src="{{asset('assets/js/jquery.ajax.js')}}"></script>
 <script type="text/javascript">
      const sessionId = '{{session()->get('pagseguro_session_code')}}';
     PagSeguroDirectPayment.setSessionId(sessionId);
@@ -97,13 +98,36 @@
                 expirationMonth: document.querySelector('input[name=card_month]').value,
                 expirationYear:  document.querySelector('input[name=card_year]').value,
                 success: function(res){
-                    console.log(res);
+                    processPayment(res.card.token);
                 },
                 error: function(err){
                     console.log(err);
                 },
             })
         });
+
+        function processPayment(token){
+            
+            let data = {
+                card_token: token,
+                hash: PagSeguroDirectPayment.getSenderHash(),
+                installment : document.querySelector('.select_installments').value,
+                _token: '{{csrf_token()}}'
+            };
+            
+
+            $.ajax({
+                type: 'POST',
+                url: '{{route("checkout.proccess")}}',
+                data: data,
+                dataType: 'json',
+                success: function(res){
+                    console.log(res);
+                }
+            });
+        }
+
+
 
 
 
@@ -129,7 +153,7 @@
     function drawSelectInstallments(installments) {
 		let select = '<label>Installment Options:</label>';
 
-		select += '<select class="form-control">';
+		select += '<select class="form-control select_installments">';
 
 		for(let l of installments) {
 		    select += `<option value="${l.quantity}|${l.installmentAmount}">${l.quantity}x of ${l.installmentAmount} - Total: ${l.totalAmount}</option>`;
