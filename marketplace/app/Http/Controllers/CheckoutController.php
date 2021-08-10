@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Payment\PagSeguro\CreditCard;
 use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
@@ -28,120 +29,56 @@ class CheckoutController extends Controller
 
     public function proccess(Request $request)      
     {
+        try {
+            
+        $dataPOST = $request -> all();
+        $user = auth()->user();
+        $cartItems = session()->get('cart');
+        $reference = 'XPTO';
+    
+        $creditCardPayment = new CreditCard($cartItems,$user,$dataPOST, $reference);
 
-    $dataPOST = $request -> all();
-    $reference = 'XPTO';
+        $result = $creditCardPayment->doPayment();
+    
+        $userOrder =[
+            'reference' => $reference,
+            'pagseguro_code'=> $result->getCode(),
+            'pagseguro_status'=> $result->getStatus(),
+            'items' => serialize($cartItems),
+            'store_id'=> 1
+        ];
+    
+        $user-> orders()->create($userOrder);
 
-    $creditCard = new \PagSeguro\Domains\Requests\DirectPayment\CreditCard();
+        session()->forget('cart');
+        session()->forget('pagseguro_session_code');
 
-    $creditCard->setReceiverEmail(env('PAGSEGURO_EMAIL'));
+        return response()->json([
+            'data' =>[
+                'status' => true,
+                'message' => 'Order placement was successful' ,
+                'order'   => $reference  
+            ]
+            ]);
 
-    $creditCard->setReference($reference);
-
-    // Set the currency
-    $creditCard->setCurrency("BRL");
-
-    // Add items for this payment request
-
-    $cartItems = session()->get('cart');
-
-    foreach($cartItems as  $item){
-        $creditCard->addItems()->withParameters(
-            $reference,
-            $item['name'],
-            $item['amount'],
-            $item['price']
-        );
+        } catch (\Exception $e) {
+            $message = env('APP_DEBUG') ? $e->getMessage() : 'Error occurred!';
+            return response()->json([
+                'data' =>[
+                    'status' => false,
+                    'message' => $message 
+                ]
+                ], 401);
+        }
     }
 
-    // Set your customer information.
-    // If you using SANDBOX you must use an email @sandbox.pagseguro.com.br
-
-    $user = auth()->user();
-    $email = env('PAGSEGURO_ENV') == 'sandbox' ? 'c53281149833065927639@sandbox.pagseguro.com.br' : $user->email;
-
-    $creditCard->setSender()->setName($user->name);
-    $creditCard->setSender()->setEmail($email);
-
-    //This is an example that can be changed to future implementations
-    $creditCard->setSender()->setPhone()->withParameters(
-        11,
-        56273440
-    );
-
-    //This is an example that can be changed to future implementations
-    $creditCard->setSender()->setDocument()->withParameters(
-        'CPF',
-        '38883880749'
-    );
-
-    $creditCard->setSender()->setHash($dataPOST['hash']);
-
-    //This is an example that can be changed to future implementations
-    $creditCard->setSender()->setIp('127.0.0.0');
-
-    // Set shipping information for this payment request
-    //This is an example that can be changed to future implementations
-    $creditCard->setShipping()->setAddress()->withParameters(
-        'Av. Brig. Faria Lima',
-        '1384',
-        'Jardim Paulistano',
-        '01452002',
-        'São Paulo',
-        'SP',
-        'BRA',
-        'apto. 114'
-    );
-
-    //Set billing information for credit card 
-    //This is an example that can be changed to future implementations
-    $creditCard->setBilling()->setAddress()->withParameters(
-        'Av. Brig. Faria Lima',
-        '1384',
-        'Jardim Paulistano',
-        '01452002',
-        'São Paulo',
-        'SP',
-        'BRA',
-        'apto. 114'
-    );
-
-    // Set credit card token
-    $creditCard->setToken($dataPOST['card_token']);
-
-    //Set payment installment
-    list($quantity,$installmentAmount ) = explode('|', $dataPOST['installment']);
-    
-    $installmentAmount = number_format($installmentAmount,2,'.','');
-    
-    $creditCard->setInstallment()->withParameters($quantity, $installmentAmount);
-
-    // Set the credit card holder information
-    //This is an example that can be changed to future implementations
-    $creditCard->setHolder()->setBirthdate('01/10/1979');
-
-    $creditCard->setHolder()->setName($dataPOST['card_name']);
-  
-    //This is an example that can be changed to future implementations
-    $creditCard->setHolder()->setPhone()->withParameters(
-        11,
-        56273440
-    );
-
-    //This is an example that can be changed to future implementations
-    $creditCard->setHolder()->setDocument()->withParameters(
-        'CPF',
-        '38883880749'
-    );
-
-    $creditCard->setMode('DEFAULT');
-
-    $result = $creditCard->register(
-        \PagSeguro\Configuration\Configure::getAccountCredentials()
-    );
-
-    var_dump($result);
+    public function thanks()
+    {
+        return view('thanks');
     }
+
+
+
 
 
     private function makePagSeguroSession()
