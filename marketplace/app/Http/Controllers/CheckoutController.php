@@ -13,6 +13,9 @@ class CheckoutController extends Controller
             return redirect()->route('login');
         }
         
+        if(!session()->has('cart')){
+            return redirect()->route('home');
+        }
         //session()->forget('pagseguro_session_code');
         
         $this -> makePagSeguroSession();
