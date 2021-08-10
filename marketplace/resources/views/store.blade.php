@@ -2,7 +2,28 @@
 
 @section('content')
     <div class="row front">
-        @foreach($products as $key => $product)
+
+        <div class="col-3">
+            @if($store->logo)
+                <img src="{{asset('storage/'.$store->logo)}}" alt="{{$store->name}}'s logo" class="img-fluid rounded">
+            @else
+                <img src="https://via.placeholder.com/600X300.png?text=logo" alt="Store without logo" class="img-fluid rounded">
+            @endif
+        </div>
+        <div class="col-9">
+            <h2>{{$store->name}}</h2>
+            <p>{{$store->description}}</p>
+            <p>
+                <strong>Contact store:</strong>
+                <span>{{$store->phone}}</span> | <span>{{$store->mobile_phone}}</span>
+            </p>
+        </div>
+        
+        <div class="col-12 mb-3">
+            <hr>
+            <h3>Store's products:</h3>
+        </div>
+    @forelse($store->products as $key => $product)
             <div class="col-md-4">
                 <div class="card" style="width: 98%;">       
                     @if($product-> photos->count())
@@ -29,32 +50,10 @@
                 </div> 
             </div>
         @if(($key+1)% 3 == 0)</div><div class="row front">@endif
-        @endforeach
+        @empty
+            <div class="col-12">
+                <h3 class="alert alert-warning">Products unavailable for this store</h3>
+            </div>
+    @endforelse
     </div>
-    <div class="row">
-        <div class="col-12">
-            <h2>Best sellers</h2>
-            <hr>
-        </div>
-    @foreach($stores as $store)
-        <div class="col-4">
-
-        @if($store->logo)
-            <img src="{{asset('storage/'.$store->logo)}}" alt="{{$store->name}}'s logo" class="img-fluid">
-        @else
-            <img src="https://via.placeholder.com/600X300.png?text=logo" alt="Store without logo" class="img-fluid">
-        @endif
-            <img src="{{asset('storage/'.$store->logo)}}" alt="{{$store->name}}'s logo" class="img-fluid">
-            <h3>{{$store->name}}</h3>
-            <p>{{$store->description}}</p>
-            <a href="{{route('store.single',['slug'=>$store->slug])}}" class="btn btn-sm btn-outline-success d-flex justify-content-center">Meet seller</a>
-        </div>
-    @endforeach
-    </div>
-
-
-
-
-
-
 @endsection
