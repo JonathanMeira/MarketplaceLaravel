@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Marketplace</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <style>
         .front.row {
             margin-bottom: 40px;
@@ -16,7 +16,7 @@
     @yield('stylesheets')
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-white" style="margin-bottom: 40px;">
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom: 40px;">
 
     <a class="navbar-brand" href="{{route('home')}}">Marketplace</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,7 +68,7 @@
   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
   crossorigin="anonymous">
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+<script src="{{asset('js/app.js')}}"></script>
 
 @yield('scripts')
 </body>
