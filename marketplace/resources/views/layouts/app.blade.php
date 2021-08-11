@@ -18,13 +18,16 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     @auth
   <ul class="navbar-nav mr-auto">
+      <li class="nav-item @if(request()->is('admin/orders*'))active @endif">
+        <a class="nav-link" href="{{route('admin.orders.my')}}">My orders</a>
+      </li>   
       <li class="nav-item @if(request()->is('admin/stores*'))active @endif">
-        <a class="nav-link" href="{{route('admin.stores.index')}}">Stores<span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{{route('admin.stores.index')}}">Store<span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item @if(request()->is('admin/products*'))active @endif"">
+      <li class="nav-item @if(request()->is('admin/products*'))active @endif">
         <a class="nav-link" href="{{route('admin.products.index')}}">Products</a>
       </li>
-      <li class="nav-item @if(request()->is('admin/categories*'))active @endif"">
+      <li class="nav-item @if(request()->is('admin/categories*'))active @endif">
         <a class="nav-link" href="{{route('admin.categories.index')}}">Categories</a>
       </li>    
     </ul>
@@ -51,5 +54,15 @@
         @include('flash::message')
         @yield('content')
     </div>
+
+
+<script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous">
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+
 </body>
 </html>
