@@ -134,6 +134,16 @@ Route::get('/models',function(){
     return \App\User::all();
 });
 
+//Test route
+/*
+Route::get('not', function () {
+    $user = \App\User::find(1);
+
+    $user->notify(new \App\Notifications\StoreReceiveNewOrder());
+    return $user->notifications;
+}); 
+ */
+
 
 
 Route::group(['middleware' => ['auth']], function(){
@@ -160,6 +170,10 @@ Route::group(['middleware' => ['auth']], function(){
         Route::post('photos/remove', 'ProductPhotoController@removePhoto')->name('photo.remove');
     
         Route::get('orders/my','OrdersController@index')->name('orders.my');
+
+        Route::get('notifications','NotificationController@notifications')->name('notifications.index');
+        Route::get('notifications/read-all','NotificationController@readAll')->name('notifications.read.all');
+        Route::get('notifications/read/{notification}','NotificationController@read')->name('notifications.read');
 
 
     });    
