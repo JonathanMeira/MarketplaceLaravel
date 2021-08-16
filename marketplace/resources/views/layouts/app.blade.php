@@ -46,7 +46,7 @@
                 <a class="nav-link" href="#"onclick="event.preventDefault(); document.querySelector('form.logout').submit()">Logout</a>
                 <form action="{{route('logout')}}" class="logout" method="post" style="display: none;">
                     @csrf
-                </form>
+                </form> 
             </li>
             <li class="nav-item">
               <span class="nav-link">
