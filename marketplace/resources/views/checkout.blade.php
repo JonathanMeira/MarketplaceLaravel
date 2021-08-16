@@ -141,10 +141,10 @@
                })
            }
            function drawSelectInstallments(installments) {
-               let select = '<label>Opções de Parcelamento:</label>';
+               let select = '<label>Parcellment options:</label>';
                select += '<select class="form-control select_installments">';
                for(let l of installments) {
-                   select += `<option value="${l.quantity}|${l.installmentAmount}">${l.quantity}x de ${l.installmentAmount} - Total fica ${l.totalAmount}</option>`;
+                   select += `<option value="${l.quantity}|${l.installmentAmount}">${l.quantity}x ${l.installmentAmount} - Total: ${l.totalAmount}</option>`;
                }
                select += '</select>';
                return select;

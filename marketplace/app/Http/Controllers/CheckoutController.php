@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Payment\PagSeguro\CreditCard;
 use Illuminate\Http\Request;
+use App\Store;
 
 class CheckoutController extends Controller
 {
