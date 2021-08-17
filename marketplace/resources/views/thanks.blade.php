@@ -2,9 +2,9 @@
 
 @section('content')
     <h2 class="alert alert-success">
-        Your order has been placed. Your code number: {{request()->get('order')}}.
+        Thank you for purchasing with us! 
     </h2>
     <h3>
-        Thank you for purchasing with us! 
+        Your order has been placed. Your code number: {{request()->get('order')}}'.
     </h3>
 @endsection

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Payment\PagSeguro\CreditCard;
+use App\Payment\PagSeguro\Notification;
 use Illuminate\Http\Request;
 use App\Store;
+use App\UserOrder;
+use Ramsey\Uuid\Uuid;
 
 class CheckoutController extends Controller
 {
@@ -39,7 +42,7 @@ class CheckoutController extends Controller
         $user = auth()->user();
         $cartItems = session()->get('cart');
         $stores = array_unique(array_column($cartItems,'store_id'));
-        $reference = 'XPTO';
+        $reference = Uuid::uuid4();
     
         $creditCardPayment = new CreditCard($cartItems,$user,$dataPOST, $reference);
 
@@ -86,7 +89,32 @@ class CheckoutController extends Controller
         return view('thanks');
     }
 
+    public function notification()
+    {
+        try {
+            $notification = new Notification();
+            $notification =  $notification->getTransaction();
+    
 
+            $reference = base64_decode($notification->getReference());
+            $userOrder= UserOrder::whereReference($reference);
+            $userOrder->update([
+                'pagseguro_status' => $notification->getStatus()
+            ]);
+    
+            //TodoList:
+            /*
+             Notify User when status equals 3; Email;
+             Notify Sellers when status equal 3;Email and notification;
+             */
+    
+             return response()->json([],203);
+        } catch (\Exception $e) {
+            $message = env('APP_DEBUG') ? $e->getMessage() : [];
+            return response()->json(['error'=> $message],500);
+        }
+
+    }
 
 
 

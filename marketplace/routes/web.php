@@ -33,14 +33,15 @@ Route::prefix('checkout')->name('checkout.')->group(function(){
     Route::get('/','CheckoutController@index')->name('index');
     Route::post('/proccess', 'CheckoutController@proccess')->name('proccess');
     Route::get('/thanks','CheckoutController@thanks')->name('thanks');
+    Route::post('/notification','CheckoutController@notification')->name('notification');
     //Route::get('/thanks', 'CheckoutController@thanks')->name('thanks');
 
 });
 
-
+/*
 Route::get('/models',function(){
     
-/*
+
     Using Active Records:
 
     $user = new \App\User();
@@ -130,9 +131,9 @@ Route::get('/models',function(){
     $product = \App\Product::find(1);
     $product-> categories()-> sync([1]);
 
-*/
     return \App\User::all();
-});
+*/
+/*
 
 //Test route
 /*

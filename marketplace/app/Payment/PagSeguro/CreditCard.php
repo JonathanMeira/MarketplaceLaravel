@@ -25,7 +25,7 @@ class CreditCard{
     
         $creditCard->setReceiverEmail(env('PAGSEGURO_EMAIL'));
     
-        $creditCard->setReference($this->reference);
+        $creditCard->setReference(base64_encode($this->reference));
     
         // Set the currency
         $creditCard->setCurrency("BRL");
@@ -34,7 +34,7 @@ class CreditCard{
     
         foreach($this->items as  $item){
             $creditCard->addItems()->withParameters(
-                $this->reference,
+                $item['id'],
                 $item['name'],
                 $item['amount'],
                 $item['price']
