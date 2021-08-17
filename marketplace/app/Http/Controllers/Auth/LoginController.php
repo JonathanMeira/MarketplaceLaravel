@@ -43,7 +43,7 @@ class LoginController extends Controller
     {
 
         if($user->role == 'ROLE_OWNER'){
-            return redirect()->route('admin.store.index');
+            return redirect()->route('admin.stores.index');
         }
 
         if($user->role == 'ROLE_USER' && session()->has('cart')){

@@ -30,10 +30,15 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $userStore = auth() -> user() -> store;
+        $user = auth()->user();
+
+        if(!$user->store()->exists()){
+            flash('You dont have an store owned. Please create one to continue.')->warning();
+            return redirect()->route('admin.stores.index');
+        }
 
 
-        $products = $userStore -> products() ->paginate(10);
+        $products = $user -> store -> products() ->paginate(10);
 
         return view('admin.products.index', compact('products'));
     }
@@ -60,6 +65,9 @@ class ProductController extends Controller
         $data = $request -> all();
 
         $categories = $request->get('categories',null);
+
+        $data['price'] = formatPriceToDatabase($data['price']);
+
         $store = auth()->user()->store;
 
         $data['slug'] = Str::slug($data['name'], '-');
@@ -113,6 +121,8 @@ class ProductController extends Controller
         $categories = $request->get('categories',null);
 
         $product = $this -> product -> find($product);
+
+        $data['price'] = formatPriceToDatabase($data['price']);
 
         $data['slug'] = Str::slug($data['name'], '-');
 

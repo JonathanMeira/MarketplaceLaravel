@@ -18,7 +18,15 @@ class OrdersController extends Controller
 
     public function index()
     {
-        $orders = auth()->user()->store->orders()->paginate(15);
+        $user = auth()->user();
+
+        if(!$user->store()->exists()){
+            flash('You dont have an store owned. Please create one to continue.')->warning();
+            return redirect()->route('admin.stores.index');
+        }
+
+
+        $orders = $user->store->orders()->paginate(15);
 
         return view('admin.orders.index',compact('orders'));
     }
