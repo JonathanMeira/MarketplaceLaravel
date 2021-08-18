@@ -52,8 +52,6 @@ class CategoryController extends Controller
     {
 	    $data = $request->all();
 
-        $data['slug'] = Str::slug($data['name'], '-');
-
 	    $category = $this->category->create($data);
 
 	    flash('Category creation was an success')->success();
@@ -97,8 +95,6 @@ class CategoryController extends Controller
 	    $data = $request->all();
 
 	    $category = $this->category->find($category);
-
-        $data['slug'] = Str::slug($data['name'], '-');
 
 	    $category->update($data);
 

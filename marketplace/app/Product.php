@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\Slug;
 
 class Product extends Model
 {
+    use Slug;
+
     protected $fillable =['name','description','body','price','slug'];
 
     public function store(){

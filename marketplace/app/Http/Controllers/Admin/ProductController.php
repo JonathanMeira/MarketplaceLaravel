@@ -70,7 +70,6 @@ class ProductController extends Controller
 
         $store = auth()->user()->store;
 
-        $data['slug'] = Str::slug($data['name'], '-');
 
         $product = $store -> products() -> create($data);
         $product -> categories() -> sync($categories);
@@ -124,7 +123,6 @@ class ProductController extends Controller
 
         $data['price'] = formatPriceToDatabase($data['price']);
 
-        $data['slug'] = Str::slug($data['name'], '-');
 
         $product ->update($data);
 

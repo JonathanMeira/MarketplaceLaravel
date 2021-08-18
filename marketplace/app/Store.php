@@ -4,9 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use \App\Notifications\StoreReceiveNewOrder;
+use App\Traits\Slug;
 
 class Store extends Model
 {
+    use Slug;
+
     protected $fillable =['name','description','phone','mobile_phone','slug','logo'];
 
     public function user(){

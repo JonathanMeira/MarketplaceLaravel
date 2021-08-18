@@ -6,7 +6,7 @@
     <form action="{{route('admin.categories.store')}}" method="post">
         <input type="hidden" name="_token" value="{{csrf_token()}}">
         <div class="form-group">
-            <label>Nane</label>
+            <label>Name</label>
             <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{old('name')}}">
 
             @error('name')

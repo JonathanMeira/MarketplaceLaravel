@@ -43,7 +43,6 @@ class StoreController extends Controller
             $data['logo'] = $this -> imageUpload($request->file('logo'));
         }
 
-        $data['slug'] = Str::slug($data['name'], '-');
 
         $store = $user->store()->create($data);
 
@@ -69,7 +68,6 @@ class StoreController extends Controller
             $data['logo'] = $this -> imageUpload($request->file('logo'));
         }
 
-        $data['slug'] = Str::slug($data['name'], '-');
 
         $store->update($data);
 

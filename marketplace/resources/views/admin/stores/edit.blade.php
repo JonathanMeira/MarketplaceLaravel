@@ -59,7 +59,9 @@
         </div>
     @enderror
     <p>
-        <img src="{{asset('storage/'.$store->logo)}}">
+        @if($store->logo)
+                <img src="{{asset('storage/'.$store->logo)}}" alt="{{$store->name}}'s logo" class="img-fluid rounded">
+        @endif
     </p>
 </div>
 
