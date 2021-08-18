@@ -5,12 +5,12 @@
         <div class="col-6">
         
         @if($product-> photos->count())
-            <img src="{{ asset('storage/'.$product-> photos->first()->image) }}" class="card-img-top">
+            <img src="{{ asset('storage/'.$product-> thumb) }}" class="card-img-top thumb">
             <div class="row mt-2">
                 @foreach($product -> photos as $photo)
                     <div class="col-4">
                         <div class="img-fluid">
-                            <img src="{{ asset('storage/'. $photo ->image)}}">
+                            <img src="{{ asset('storage/'. $photo ->image)}}" class="img-fluid img-small">
                         </div>
                     </div>
                 @endforeach
@@ -42,7 +42,7 @@
                   <input type="hidden" name="product[price]"value="{{$product->price}}">
                   <input type="hidden" name="product[slug]" value="{{$product->slug}}">
                   <div class="form-group">
-                      <label>amount</label>
+                      <label>Amount</label>
                       <input type="number" name="product[amount]" class="form-control col-md-2" value="1">
                   </div>
                 <button href="" class="btn btn-lg btn-warning">Add to cart</button>
@@ -57,6 +57,9 @@
         </div>
 
     </div>
+@endsection
 
+@section('scripts')
+    <script src="{{asset('js/carousel.js')}}"></script>
 
 @endsection

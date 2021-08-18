@@ -6,7 +6,7 @@
             <div class="col-md-4">
                 <div class="card" style="width: 98%;">       
                     @if($product-> photos->count())
-                        <img src="{{ asset('storage/'.$product-> photos->first()->image) }}" class="card-img-top">
+                        <img src="{{ asset('storage/'.$product-> thumb) }}" class="card-img-top">
                     @else
                         <img src="{{ asset('assets/img/no-photo.jpg') }}" class="card-img-top">
                     @endif
@@ -44,7 +44,6 @@
         @else
             <img src="https://via.placeholder.com/600X300.png?text=logo" alt="Store without logo" class="img-fluid">
         @endif
-            <img src="{{asset('storage/'.$store->logo)}}" alt="{{$store->name}}'s logo" class="img-fluid">
             <h3>{{$store->name}}</h3>
             <p>{{$store->description}}</p>
             <a href="{{route('store.single',['slug'=>$store->slug])}}" class="btn btn-sm btn-outline-success d-flex justify-content-center">Meet seller</a>

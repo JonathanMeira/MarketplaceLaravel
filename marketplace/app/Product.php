@@ -12,6 +12,13 @@ class Product extends Model
         return $this->belongsTo(Store::class);
     }
 
+    public function getThumbAttribute()
+    {
+        return $this-> photos->first()->image;
+    }
+
+
+
     public function categories(){
         return $this->belongsToMany(Category::class);
         
