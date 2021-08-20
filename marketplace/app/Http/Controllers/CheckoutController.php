@@ -74,7 +74,7 @@ class CheckoutController extends Controller
             ]);
 
         } catch (\Exception $e) {
-            $message = env('APP_DEBUG') ? $e->getMessage() : 'Error occurred!';
+            $message = env('APP_DEBUG') ? simplexml_load_string($e->getMessage())  : 'Error occurred!';
             return response()->json([
                 'data' =>[
                     'status' => false,

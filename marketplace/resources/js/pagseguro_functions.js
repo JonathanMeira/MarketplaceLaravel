@@ -1,4 +1,4 @@
-function proccessPayment(token)
+function proccessPayment(token, buttonTarget)
 {
      let data = {
          card_token: token,
@@ -15,6 +15,13 @@ function proccessPayment(token)
          success: function(res) {
              toastr.success(res.data.message,'Success');
              window.location.href = `${urlThanks}?order='${res.data.order}`;
+         },
+         error: function(err){
+            buttonTarget.disabled = false;
+            buttonTarget.textContent = 'Place order';
+
+            let message = JSON.pars(err.responseText);
+            document.querySelector('div.msg').innerHTML = showErrorMessages(message.data.message.error.message);
          }
      });
 }
@@ -42,4 +49,44 @@ function drawSelectInstallments(installments) {
     }
     select += '</select>';
     return select;
+}
+
+
+function showErrorMessages(message) {
+    return `
+     <div class="alert alert-danger">${message}</div>   
+    `;
+}
+
+function errorsMapPagseguroJS(code)
+{
+    switch(code) {
+        case "10000":
+            return 'Invalid creditcard brand';
+        break;
+
+        case "10001":
+            return 'Creditcard number with invalid length';
+        break;
+
+        case "10002":
+        case  "30405":
+            return 'Invalid date format';
+        break;
+
+        case "10003":
+            return 'Invalid secutiry field';
+        break;
+
+        case "10004":
+            return 'CVV is mandatory';
+        break;
+
+        case "10006":
+            return 'Secutiry field with invalid lenght';
+        break;
+
+        default:
+            return 'There was an error validating your credit card!';
+    }
 }
