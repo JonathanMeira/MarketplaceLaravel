@@ -14,7 +14,7 @@ function proccessPayment(token, buttonTarget)
          dataType: 'json',
          success: function(res) {
              toastr.success(res.data.message,'Success');
-             window.location.href = `${urlThanks}?order='${res.data.order}`;
+             window.location.href = `${urlThanks}?order=${res.data.order}`;
          },
          error: function(err){
             buttonTarget.disabled = false;
