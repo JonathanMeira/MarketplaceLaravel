@@ -1,20 +1,31 @@
-function proccessPayment(token, buttonTarget)
+function proccessPayment(token, paymentType,buttonTarget)
 {
      let data = {
-         card_token: token,
          hash: PagSeguroDirectPayment.getSenderHash(),
-         installment: document.querySelector('select.select_installments').value,
-         card_name: document.querySelector('input[name=card_name]').value,
+         paymentType: paymentType,
          _token: csrf,
      };
+
+     if (paymentType === 'CREDITCARD') {
+         data.card_token = token;
+         data.installment = document.querySelector('select.select_installments').value;
+         data.card_name = document.querySelector('input[name=card_name]').value;
+    }
+
+
+
+
      $.ajax({
          type: 'POST',
          url: urlProccess,
          data: data,
          dataType: 'json',
          success: function(res) {
+            let redirectUrl = `${urlThanks}?order=${res.data.order}`;
+            let linkBankSlip = `${redirectUrl}&link=${res.data.link_pagseguro}`
+
              toastr.success(res.data.message,'Success');
-             window.location.href = `${urlThanks}?order=${res.data.order}`;
+             window.location.href = paymentType == 'BANKSLIP' ? linkBankSlip : redirectUrl;
          },
          error: function(err){
             buttonTarget.disabled = false;

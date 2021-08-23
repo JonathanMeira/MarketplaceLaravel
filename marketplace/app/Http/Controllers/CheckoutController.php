@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Payment\PagSeguro\Boleto;
 use App\Payment\PagSeguro\CreditCard;
 use App\Payment\PagSeguro\Notification;
 use Illuminate\Http\Request;
@@ -48,9 +49,11 @@ class CheckoutController extends Controller
         $stores = array_unique(array_column($cartItems,'store_id'));
         $reference = Uuid::uuid4();
     
-        $creditCardPayment = new CreditCard($cartItems,$user,$dataPOST, $reference);
+        $payment =  $dataPOST['paymentType'] == 'BANKSLIP' 
+            ? new Boleto($cartItems, $user, $reference, $dataPOST['hash'])
+            : new CreditCard($cartItems,$user,$dataPOST, $reference);
 
-        $result = $creditCardPayment->doPayment();
+        $result = $payment->doPayment();
     
         $userOrder =[
             'reference' => $reference,
@@ -69,12 +72,20 @@ class CheckoutController extends Controller
         session()->forget('cart');
         session()->forget('pagseguro_session_code');
 
+
+        $dataJSON =   [
+            'status' => true,
+            'message' => 'Order placement was successful' ,
+            'order'   => $reference  
+        ];
+
+        if ($dataPOST['paymentType'] == 'BANKSLIP') {
+            $dataJSON['link_pagseguro'] = $result->getPaymentLink();
+        }
+
+
         return response()->json([
-            'data' =>[
-                'status' => true,
-                'message' => 'Order placement was successful' ,
-                'order'   => $reference  
-            ]
+            'data' => $dataJSON
             ]);
 
         } catch (\Exception $e) {

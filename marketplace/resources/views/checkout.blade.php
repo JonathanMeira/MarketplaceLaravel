@@ -7,6 +7,19 @@
 
 @section('content')
 <div class="container">
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="creditCard-tab" data-toggle="tab" href="#creditCard" role="tab" aria-controls="creditCard" aria-selected="true">Credit Card</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="bankslip-tab" data-toggle="tab" href="#bankslip" role="tab" aria-controls="bankslip" aria-selected="false">Bank Slip</a>
+            </li>
+        </ul>
+        <div class="tab-content pt-5" id="myTabContent">
+            <div class="tab-pane fade show active" id="creditCard" role="tabpanel" aria-labelledby="creditCard-tab">
+
+
     <div class="col-md-6">
         <div class="row">
             <div class="col-md-12 msg">
@@ -56,10 +69,32 @@
                 <div class="col-md-12 installments form-group"></div>
             </div>
 
-            <button class="btn btn-success btn-lg processCheckout">Place order</button>
+            <button class="btn btn-success btn-lg processCheckout"  data-payment="CREDITCARD">Place order</button>
         </form>
     </div>
 </div>
+
+<div class="tab-pane fade" id="bankslip" role="tabpanel" aria-labelledby="bankslip-tab">
+
+<div class="row">
+    <div class="col-12">
+        <h2>Pay with bank slip</h2>
+        <button class="btn btn-success btn-lg processCheckout" data-payment="BANKSLIP">Place bank slip</button>
+    </div>
+</div>
+
+</div>
+</div>
+
+
+</div>
+
+
+
+
+
+
+
 
 @endsection
 
