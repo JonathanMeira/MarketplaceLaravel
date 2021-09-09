@@ -33,7 +33,7 @@ class UserRegisteredEmail extends Mailable
     {
         return $this
             ->subject('New account to Marketplace')
-            ->replyTo('juliennemeira@gmail.com')
+            ->replyTo('yourEmail@gmail.com')
             ->view('emails.user-registered')->with(['user'=> $this->user]);
     }
 }
